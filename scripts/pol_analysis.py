@@ -79,36 +79,43 @@ def import_pol_data(file, n_indiv):
 # angles = list(np.arange(0, 360, 10))
 # ang = [55, 65, 75, 85, 235, 245, 255, 265]
 # angles = angles + ang
-angles = np.arange(0, 360, 20)
+
+
+# angles = np.arange(0, 360, 20)
+# angles = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,155,160,165,170,180,\
+# 190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,335,340,350]
 beams = []
 
-###
-F_test = [145,150,155,160,165,170] # GHz
-beams_f = np.zeros((len(F_test), len(angles)))
-for i, freq in enumerate(F_test):
-    beambeam = []
-    for j, ang in enumerate(angles):
-        phi, beam = import_pol_data(f"../Data/pol_{freq}GHz_"+str(ang)+"deg_22-4-2022.txt",5)
-        beambeam.append(beam)
-    beams_f[i] = np.array(beambeam)
-gridsize = int(np.sqrt((len(F_test)))+0.5)
-gridsize = 3
-fig, ax = plt.subplots(2, 3, figsize=(20, 12))
-for ib, b in enumerate(beams_f):
-    ax[ib//gridsize, int(np.mod(ib, gridsize))].plot(angles,np.array(b)/np.max(np.array(b)),'.-',color = 'r')
-    ax[ib//gridsize, int(np.mod(ib, gridsize))].set_title(f"frequency : {F_test[ib]} GHz")
-    ax[ib//gridsize, int(np.mod(ib, gridsize))].set_xlabel("Grid tilt [deg.]")
-    # ax[ib//gridsize, int(np.mod(ib, gridsize))].set_yscale("log")
-plt.show()
-###
-#
-# for ang in angles:
-#
-#     phi,beam = import_pol_data("../Data/pol_150GHz_"+str(ang)+"deg_21-4-2022.txt",5)
-#     beams.append(beam)
-#
-# plt.plot(angles,np.array(beams)/np.max(np.array(beams)),'.',color = 'r')
-# plt.title("Polarization Response of Holography Receiver")
-# plt.xlabel("Grid tilt [deg.]")
-# plt.yscale("log")
+# ###
+# F_test = [145,150,155,160,165,170] # GHz
+# beams_f = np.zeros((len(F_test), len(angles)))
+# for i, freq in enumerate(F_test):
+#     beambeam = []
+#     for j, ang in enumerate(angles):
+#         phi, beam = import_pol_data(f"../Data/pol_{freq}GHz_"+str(ang)+"deg_26-4-2022.txt",5)
+#         beambeam.append(beam)
+#     beams_f[i] = np.array(beambeam)
+# gridsize = int(np.sqrt((len(F_test)))+0.5)
+# gridsize = 3
+# fig, ax = plt.subplots(2, 3, figsize=(20, 12))
+# for ib, b in enumerate(beams_f):
+#     crosspol = np.array(b)/np.max(np.array(b))
+#     ax[ib//gridsize, int(np.mod(ib, gridsize))].plot(angles,b,'.-',color = 'r')
+#     ax[ib//gridsize, int(np.mod(ib, gridsize))].set_title(f"frequency : {F_test[ib]} GHz")
+#     ax[ib//gridsize, int(np.mod(ib, gridsize))].set_xlabel("Grid tilt [deg.]")
+#     # ax[ib//gridsize, int(np.mod(ib, gridsize))].set_yscale("log")
 # plt.show()
+# ##
+
+angles = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,155,160,165,170,180,\
+190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,335,340,350]
+for ang in angles:
+
+    phi,beam = import_pol_data("../Data/pol_150GHz_"+str(ang)+"deg_26-4-2022.txt",5)
+    beams.append(beam)
+crosspol = np.array(beams)/np.max(np.array(beams))
+plt.plot(angles,beams,'.',color = 'r')
+plt.title("Polarization Response of Holography Receiver")
+plt.xlabel("Grid tilt [deg.]")
+plt.yscale("log")
+plt.show()

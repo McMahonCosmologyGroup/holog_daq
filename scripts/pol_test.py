@@ -163,8 +163,8 @@ def get_pol_data(fre, angle):
 
 	return STR_FILE_OUT # return the file name
 
-F_test = [125,145,150,155,160,165,170] # GHz
-angle_test = 80 # deg
+F_test = [125,130,135,140,145,150,155,160,165,170] # GHz
+angle_test = 345 # deg
 
 for ff in F_test:
 	out_file = get_pol_data(ff,angle_test) # get the data
