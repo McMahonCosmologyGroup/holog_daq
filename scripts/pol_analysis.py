@@ -107,16 +107,25 @@ beams = []
 # plt.show()
 # ##
 
-angles = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,155,160,165,170,180,\
-190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,335,340,350]
-angles = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,\
-190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,345,350]
+angles = [0,10,20,30,40,50,60,70,75,80,85,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,\
+280,290,300,310,320,330,340,350]
 for ang in angles:
-
-    phi,beam = import_pol_data("../Data/pol_150GHz_"+str(ang)+"deg_26-4-2022.txt",5)
+    phi,beam = import_pol_data("../Data/pol2_170GHz_"+str(ang)+"deg_27-4-2022.txt",5)
     beams.append(beam)
-crosspol = np.array(beams)/np.max(np.array(beams))
-plt.plot(angles,beams,'.',color = 'r')
+copol = np.array(beams)
+plt.plot(angles,copol/np.max(copol),'.',color = 'r')
+
+
+angles = [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,\
+210,220,230,240,250,260,270,280,290,300,310,320,330,340,350]
+
+beams = []
+
+for ang in angles:
+    phi,beam = import_pol_data("../Data/pol_170GHz_"+str(ang)+"deg_27-4-2022.txt",5)
+    beams.append(beam)
+crosspol = np.array(beams)
+plt.plot(angles,crosspol/np.max(copol),'.',color = 'b')
 plt.title("Polarization Response of Holography Receiver")
 plt.xlabel("Grid tilt [deg.]")
 plt.yscale("log")
