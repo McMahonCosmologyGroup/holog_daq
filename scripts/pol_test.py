@@ -24,7 +24,6 @@ if __name__ == "__main__":
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
-
 def get_pol_data(fre, angle):
 	'''
 	Get the data from the FPGA for a given frequency and angle.
@@ -32,14 +31,14 @@ def get_pol_data(fre, angle):
 	now = datetime.datetime.now() # get the current time
 	today = str(now.day) + "-" + str(now.month) + "-" + str(now.year) # get the date
 
-	N_MULT = 12 # source multiplication factor
+	N_MULT = 8 # source multiplication factor
 	F_START = int(fre * 1000.0 / N_MULT)  # start frequency in MHz
 	SynthOpt.F_OFFSET = 10  # offset frequency in MHz
 
-	SynthOpt.IGNORE_PEAKS_BELOW = int(986) # ignore peaks below this frequency
-	SynthOpt.IGNORE_PEAKS_ABOVE = int(990) # ignore peaks above this frequency
-	# SynthOpt.IGNORE_PEAKS_BELOW = int(655)
-	# SynthOpt.IGNORE_PEAKS_ABOVE = int(660)
+	# SynthOpt.IGNORE_PEAKS_BELOW = int(986) # ignore peaks below this frequency
+	# SynthOpt.IGNORE_PEAKS_ABOVE = int(990) # ignore peaks above this frequency
+	SynthOpt.IGNORE_PEAKS_BELOW = int(655)
+	SynthOpt.IGNORE_PEAKS_ABOVE = int(660)
 
 	# Define some wait times
 	DELTA_T_USB_CMD = 0.5
@@ -53,7 +52,7 @@ def get_pol_data(fre, angle):
 	nsamp = int(1)
 
 	STR_FILE_OUT = (
-	"../Data/pol_" + str(fre) + "GHz_" + str(angle) + "deg_" + today + ".txt"
+	"../Data/pol_cr_" + str(fre) + "GHz_" + str(angle) + "deg_" + today + ".txt"
 	) # output file name
 
 	arr2D_all_data = np.zeros(
@@ -154,7 +153,7 @@ def get_pol_data(fre, angle):
 		    ),
 		) # save the data to txt file
 		print("Done with %d GHz" %F_START)
-		time.sleep(1)
+		time.sleep(.2)
 
 	except KeyboardInterrupt:
 	    poco3.exit_clean(fpga) # exit the program
@@ -163,8 +162,8 @@ def get_pol_data(fre, angle):
 
 	return STR_FILE_OUT # return the file name
 
-F_test = [125,130,135,140,145,150,155,160,165,170] # GHz
-angle_test = 55 # deg
+F_test = [80,85,90,95,100,105,110,115,120] # GHz
+angle_test = 100 # deg
 
 for ff in F_test:
 	out_file = get_pol_data(ff,angle_test) # get the data

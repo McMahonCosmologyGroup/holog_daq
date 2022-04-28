@@ -43,9 +43,9 @@ bitstream = "t4_roach2_noquant_fftsat.fpg"
 f_clock_MHz = 500
 f_max_MHz = f_clock_MHz / 4
 katcp_port = 7147
-N = 12
+N = 8
 F_OFFSET = 10  # 5*f_clock_MHz/500 #MHz
-F = int(150.0 * 1000.0 / N)  # MHz
+F = int(120.0 * 1000.0 / N)  # MHz
 
 
 def drawDataCallback(baseline):
