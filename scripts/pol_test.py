@@ -24,6 +24,25 @@ if __name__ == "__main__":
     logger = logging.getLogger(roach)
     logger.addHandler(lh)
     logger.setLevel(10)
+
+    print("------------------------")
+    print("Programming FPGA with call to a python2 prog...")
+    # basically starting a whole new terminal and running this script
+    # err = os.system("/opt/anaconda2/bin/python2 upload_fpga_py2.py") # program the FPGA in Python2
+
+    print("Connecting to server %s ... " % (roach)),
+    if is_py3:
+        fpga = casperfpga.CasperFpga(roach) # connect to the FPGA Python3
+    else:
+        fpga = casperfpga.katcp_fpga.KatcpFpga(roach) # connect to the FPGA Python2
+    time.sleep(1) # wait for the connection to be made
+
+    if fpga.is_connected(): # check if the connection was made
+        print("ok\n")
+    else:
+        print("ERROR connecting to server %s.\n" % (roach)) # if not, print an error message
+        poco3.exit_fail(fpga) # exit the program
+
 def get_pol_data(fre, angle):
 	'''
 	Get the data from the FPGA for a given frequency and angle.
@@ -108,26 +127,6 @@ def get_pol_data(fre, angle):
 	# START OF MAIN:
 
 	try:
-		########### Setting up ROACH Connection ###############################
-		print("------------------------")
-		print("Programming FPGA with call to a python2 prog...")
-		# basically starting a whole new terminal and running this script
-		# err = os.system("/opt/anaconda2/bin/python2 upload_fpga_py2.py") # program the FPGA in Python2
-
-		print("Connecting to server %s ... " % (roach)),
-		if is_py3:
-		    fpga = casperfpga.CasperFpga(roach) # connect to the FPGA Python3
-		else:
-		    fpga = casperfpga.katcp_fpga.KatcpFpga(roach) # connect to the FPGA Python2
-		time.sleep(1) # wait for the connection to be made
-
-		if fpga.is_connected(): # check if the connection was made
-		    print("ok\n")
-		else:
-		    print("ERROR connecting to server %s.\n" % (roach)) # if not, print an error message
-		    poco3.exit_fail(fpga) # exit the program
-		######################################################################
-
 		LOs = synth3.get_LOs() # get the synthesizer settings
 		synth3.set_RF_output(0, 1, LOs) # turn on the RF output
 		synth3.set_RF_output(1, 1, LOs) # turn on the RF output
@@ -153,7 +152,7 @@ def get_pol_data(fre, angle):
 		    ),
 		) # save the data to txt file
 		print("Done with %d GHz" %F_START)
-		time.sleep(.2)
+		time.sleep(.1)
 
 	except KeyboardInterrupt:
 	    poco3.exit_clean(fpga) # exit the program
@@ -163,7 +162,7 @@ def get_pol_data(fre, angle):
 	return STR_FILE_OUT # return the file name
 
 F_test = [80,85,90,95,100,105,110,115,120] # GHz
-angle_test = 100 # deg
+angle_test = 60 # deg
 
 for ff in F_test:
 	out_file = get_pol_data(ff,angle_test) # get the data

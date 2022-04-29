@@ -106,27 +106,32 @@ beams = []
 #     # ax[ib//gridsize, int(np.mod(ib, gridsize))].set_yscale("log")
 # plt.show()
 # ##
-
+ff = 110
 angles = [0,10,20,30,40,50,55,60,65,70,80,90,100,110,120,\
 130,140,150,160,170,180,190,200,210,220,230,240,250,\
-260,270,280,290,300,310,320,330,340,350]
+260,270,280,300,310,320,330,340,350]
 
 for ang in angles:
-    phi,beam = import_pol_data("../Data/pol_co_100GHz_"+str(ang)+"deg_28-4-2022.txt",5)
+    phi,beam = import_pol_data("../Data/pol_co_"+str(ff)+"GHz_"+str(ang)+"deg_28-4-2022.txt",5)
     beams.append(beam)
 copol = np.array(beams)
-plt.plot(angles,copol/np.max(copol),'.',color = 'r')
+plt.plot(angles,copol/np.max(copol),'.-',color = 'r')
 
 
-angles = [0,10,20,30,40,50,60,70,80,90]
+angles = [0,10,20,30,40,45,50,60,70,80,90,100,110,120,130,140,150,160,170,\
+180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350]
 
 beams = []
 
 for ang in angles:
-    phi,beam = import_pol_data("../Data/pol_cr_100GHz_"+str(ang)+"deg_28-4-2022.txt",5)
+    # if (ang<=60)&(ang>50):
+    #     phi,beam = import_pol_data("../Data/pol_cr_"+str(ff)+"GHz_"+str(ang)+"deg_28-4-2022.txt",5)
+    # else:
+    phi,beam = import_pol_data("../Data/pol_cr_"+str(ff)+"GHz_"+str(ang)+"deg_29-4-2022.txt",5)
+
     beams.append(beam)
 crosspol = np.array(beams)
-plt.plot(angles,crosspol/np.max(copol),'.',color = 'b')
+plt.plot(angles,crosspol/np.max(copol),'.-',color = 'b')
 plt.title("Polarization Response of Holography Receiver")
 plt.xlabel("Grid tilt [deg.]")
 plt.yscale("log")
