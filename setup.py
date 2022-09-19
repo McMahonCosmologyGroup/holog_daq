@@ -43,7 +43,7 @@ setup(
         "scripts/plot_cross_phase_no_quant3.py",
         "scripts/poco_test_v3.py",
         "scripts/upload_fpga_py2.py",
-        "scripts/2d_beam_copy_cleaned.py3"
+        "scripts/2d_beam_copy_cleaned.py"
     ],
 )
 
